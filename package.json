@@ -1,0 +1,12 @@
+{
+  "name": "sls-starwars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "invoke": "sls invoke local -f searchPlanet --data 'Hello world'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

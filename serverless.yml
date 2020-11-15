@@ -1,0 +1,15 @@
+service: sls-starwars
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+functions:
+  searchPlanet:
+    handler: handler.hello
+    events:
+      - http:
+          method: get
+          path: /planets/{name}
