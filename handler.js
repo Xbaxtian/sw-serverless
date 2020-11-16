@@ -3,7 +3,8 @@
 const { searchPlanet, savePlanet } = require('./src/planets');
 
 module.exports.searchPlanet = async (event, context, callback) => {
-  const results = await searchPlanet(event.name);
+  const nameParameter = event.pathParameters.name;
+  const results = await searchPlanet(nameParameter);
 
   callback(null, {
     statusCode: 200,
