@@ -3,6 +3,12 @@ const planetFactory = require('./factory');
 const planetRepository = require('./repository');
 
 async function searchPlanet(name) {
+  const dbResults = await planetRepository.findByName(name);
+
+  if (dbResults) {
+    return dbResults;
+  }
+  
   const apiData = await swApiClient.findPlantByName(name);
 
   return apiData.results.map(planetFactory.createFromEnglish);

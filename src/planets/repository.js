@@ -11,6 +11,22 @@ function save(planet) {
   }).promise();
 }
 
+async function findByName(name) {
+  const dynamoResponse = await db.scan({
+    TableName: planetsTable,
+    FilterExpression: 'contains(#planet_name, :planet_name)',
+    ExpressionAttributeNames:{
+      "#planet_name": 'nombre'
+    },
+    ExpressionAttributeValues:{
+      ":planet_name": name
+    }
+  }).promise();
+
+  return dynamoResponse.Items;
+}
+
 module.exports = Object.freeze({
   save,
+  findByName,
 })
