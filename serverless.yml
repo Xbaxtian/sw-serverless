@@ -8,7 +8,7 @@ provider:
 
 functions:
   searchPlanet:
-    handler: handler.hello
+    handler: handler.searchPlanet
     events:
       - http:
           method: get

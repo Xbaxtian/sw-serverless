@@ -1,13 +1,15 @@
 'use strict';
 
-module.exports.hello = async (event, context, callback) => {
-  const response = {
+const { searchPlanet } = require('./src/planets');
+
+module.exports.searchPlanet = async (event, context, callback) => {
+  const results = await searchPlanet(event.name);
+
+  callback(null, {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'Hello world!',
-      input: event,
+      status: 'success',
+      results,
     }),
-  };
-
-  return callback(null, response);
+  });
 };
