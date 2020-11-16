@@ -5,13 +5,16 @@
   "main": "handler.js",
   "scripts": {
     "invoke": "sls invoke local -f searchPlanet --data 'Hello world'",
+    "deploy": "sls deploy --verbose",
     "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.0"
+    "aws-sdk": "^2.792.0",
+    "axios": "^0.21.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "jest": "^26.6.3"

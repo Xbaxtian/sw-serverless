@@ -1,10 +1,27 @@
 service: sls-starwars
 
+custom:
+  settings:
+    PLANETS_TABLE: planets
+
 provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
+  profile: deploy-aws
+  environment: ${self:custom.settings}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.PLANETS_TABLE}"
 
 functions:
   searchPlanet:
@@ -13,3 +30,25 @@ functions:
       - http:
           method: get
           path: /planets/{name}
+  savePlanet:
+    handler: handler.savePlanet
+    events:
+      - http:
+          method: post
+          path: /planets
+
+resources:
+  Resources:
+    PlanetsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.settings.PLANETS_TABLE}

@@ -1,5 +1,6 @@
 const swApiClient = require('./request');
 const planetFactory = require('./factory');
+const planetRepository = require('./repository');
 
 async function searchPlanet(name) {
   const apiData = await swApiClient.findPlantByName(name);
@@ -7,6 +8,26 @@ async function searchPlanet(name) {
   return apiData.results.map(planetFactory.createFromEnglish);
 }
 
+async function savePlanet(planetDTO) {
+  try {
+    const planet = planetFactory.createFromDTO(planetDTO);
+    await planetRepository.save(planet);
+
+    return {
+      statusCode: 201,
+      status: 'success',
+      data: planet,
+    }
+  } catch (error) {
+    return {
+      statusCode: 404,
+      status: 'error',
+      data: error.message
+    }
+  }
+}
+
 module.exports = Object.freeze({
   searchPlanet,
+  savePlanet,
 })

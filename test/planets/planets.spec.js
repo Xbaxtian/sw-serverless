@@ -24,6 +24,7 @@ describe('Planets test suite', () => {
     const planet = planetFactory.createFromEnglish(moc_object);
 
     expect(planet).toMatchObject({
+      id              : null,
       nombre          : 'Tatooine',
       diametro        : '10465',
       periodo_rotacion: '23',
@@ -38,6 +39,40 @@ describe('Planets test suite', () => {
       url             : 'https://swapi.py4e.com/api/planets/1/',
       creado          : '2014-12-09T13:50:49.641000Z',
       editado         : '2014-12-15T13:48:16.167217Z',
+    })
+  });
+
+  test('Create planet from DTO', () => {
+    const moc_object = {
+      nombre          : 'Tatooine',
+      diametro        : '10465',
+      periodo_rotacion: '23',
+      periodo_orbita  : '304',
+      gravedad        : '1',
+      poblacion       : '120000',
+      clima           : 'Arid',
+      terreno         : 'Dessert',
+      superficie_agua : '1',
+    };
+
+    const planet = planetFactory.createFromDTO(moc_object);
+
+    expect(planet).toMatchObject({
+      id              : expect.any(String),
+      nombre          : 'Tatooine',
+      diametro        : '10465',
+      periodo_rotacion: '23',
+      periodo_orbita  : '304',
+      gravedad        : '1',
+      poblacion       : '120000',
+      clima           : 'Arid',
+      terreno         : 'Dessert',
+      superficie_agua : '1',
+      residentes      : null,
+      peliculas       : null,
+      url             : null,
+      creado          : expect.any(String),
+      editado         : expect.any(String),
     })
   });
 
